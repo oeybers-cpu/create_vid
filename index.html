@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Literacy Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3a86ff;
+            --secondary: #4361ee;
+            --accent: #7209b7;
+            --dark: #0f1419;
+            --darker: #0a0d10;
+            --light: #f8f9fa;
+            --card-bg: rgba(25, 30, 40, 0.8);
+            --lighter-accent: #90e0ef;
+            --royal-blue: #4361ee;
+            --royal-blue-light: #4895ef;
+            --text-gray: #adb5bd;
+            --card-padding: 25px;
+            --card-gap: 30px;
+            --border-radius: 12px;
+            --top-header-height: 80px;
+            --digital-purple: #7209b7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: var(--card-gap);
+            padding: 20px;
+        }
+
+        header {
+            grid-column: 1 / -1;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            padding: 20px var(--card-padding);
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--lighter-accent);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(to right, var(--lighter-accent), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .search-bar {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 8px 15px;
+            width: 300px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            width: 100%;
+            padding: 5px 10px;
+            outline: none;
+        }
+
+        .search-bar button {
+            background: transparent;
+            border: none;
+            color: var(--text-gray);
+            cursor: pointer;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 15px;
+            margin-left: 20px;
+        }
+
+        .header-link {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 8px 15px;
+            border-radius: 6px;
+            background: rgba(58, 134, 255, 0.1);
+            border: 1px solid rgba(58, 134, 255, 0.3);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-link:hover {
+            background: rgba(58, 134, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(58, 134, 255, 0.2);
+        }
+
+        .sidebar {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: var(--card-padding);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tab {
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 500;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--accent), var(--royal-blue));
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .tab i {
+            font-size: 1.2rem;
+            width: 25px;
+        }
+
+        .content {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: var(--card-padding);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .content-header h2 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-header h2 i {
+            color: var(--lighter-accent);
+        }
+
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        .video-info {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+        }
+
+        .video-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--lighter-accent);
+        }
+
+        .video-meta {
+            display: flex;
+            gap: 20px;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .video-description {
+            line-height: 1.6;
+            color: var(--text-gray);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-gray);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--royal-blue-light);
+            opacity: 0.7;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--lighter-accent);
+        }
+
+        .empty-state p {
+            max-width: 400px;
+            line-height: 1.6;
+        }
+
+        footer {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 20px;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            border-radius: 6px;
+            background: rgba(58, 134, 255, 0.1);
+            border: 1px solid rgba(58, 134, 255, 0.3);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-link:hover {
+            background: rgba(58, 134, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* New styles for better organization */
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--lighter-accent);
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 15px;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .card-description {
+            line-height: 1.6;
+            color: var(--text-gray);
+        }
+
+        .card-description p {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .tabs {
+                flex-direction: row;
+                overflow-x: auto;
+            }
+            
+            .tab {
+                min-width: 150px;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .header-links {
+                margin-left: 0;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .search-bar {
+                width: 100%;
+                margin-top: 15px;
+            }
+            
+            .video-meta {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .header-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .card-meta {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>Academic Literacy Hub</h1>
+            </div>
+            <div class="header-links">
+                <a href="https://oeybers-cpu.github.io/a_lit_models/" class="header-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search videos and audio...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </header>
+        
+        <aside class="sidebar">
+            <div class="tabs">
+                <div class="tab active" data-tab="video">
+                    <i class="fas fa-play-circle"></i>
+                    <span>Video Library</span>
+                </div>
+                <div class="tab" data-tab="creative">
+                    <i class="fas fa-paint-brush"></i>
+                    <span>Creative Video</span>
+                </div>
+                <div class="tab" data-tab="audio">
+                    <i class="fas fa-headphones"></i>
+                    <span>Audio Resources</span>
+                </div>
+            </div>
+        </aside>
+        
+        <main class="content">
+            <div class="content-header">
+                <h2><i class="fas fa-play-circle"></i> Video Library</h2>
+            </div>
+            
+            <div id="video-content" class="video-grid">
+                <div class="video-card">
+                    <div class="video-container">
+                        <video controls>
+                            <source src="https://github.com/oeybers-cpu/a_lit_multimedia/raw/refs/heads/main/Literacy_in_the_AI_Age.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    
+                    <div class="card-content">
+                        <h2 class="card-title">Literacy in the AI Age</h2>
+                        <div class="card-meta">
+                            <span><i class="far fa-calendar"></i> Published: December 15, 2023</span>
+                            <span><i class="far fa-clock"></i> Duration: 22:15</span>
+                            <span><i class="far fa-eye"></i> Views: 0</span>
+                        </div>
+                        <div class="card-description">
+                            <p>This video explores the evolving nature of literacy in the age of artificial intelligence. It discusses how AI tools are changing the way we read, write, and communicate, and what it means for education and society.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <video controls>
+                            <source src="https://github.com/oeybers-cpu/a_lit_multimedia/raw/refs/heads/main/Multimodal_Learning_&_Equity.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    
+                    <div class="card-content">
+                        <h2 class="card-title">Multimodal Learning & Equity</h2>
+                        <div class="card-meta">
+                            <span><i class="far fa-calendar"></i> Published: November 10, 2023</span>
+                            <span><i class="far fa-clock"></i> Duration: 18:32</span>
+                            <span><i class="far fa-eye"></i> Views: 428</span>
+                        </div>
+                        <div class="card-description">
+                            <p>This video examines how multimodal approaches in education promote equity by incorporating diverse learning styles and resources. </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <video controls>
+                            <source src="https://github.com/oeybers-cpu/a_lit_multimedia/raw/refs/heads/main/The_Hidden_Rules_of_Language.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    
+                    <div class="card-content">
+                        <h2 class="card-title">The Hidden Rules of Language</h2>
+                        <div class="card-meta">
+                            <span><i class="far fa-calendar"></i> Published: October 15, 2023</span>
+                            <span><i class="far fa-clock"></i> Duration: 15:42</span>
+                            <span><i class="far fa-eye"></i> Views: 1,247</span>
+                        </div>
+                        <div class="card-description">
+                            <p>This video explores the unspoken rules and conventions that govern academic language and communication. Understanding these hidden rules is essential for success in higher education and professional settings.</p>
+                            <p>Topics covered include: academic register, formal vs. informal language, hedging in academic writing, and disciplinary discourse conventions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="creative-content" class="video-grid" style="display: none;">
+                <div class="video-card">
+                    <div class="video-container">
+                        <video controls>
+                            <source src="https://raw.githubusercontent.com/oeybers-cpu/a_lit_multimedia/main/87da4f4f-336c-4075-9852-0e6ce79e82b2.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    
+                    <div class="card-content">
+                        <h2 class="card-title">Imhotep: Ancient Architect and Sage</h2>
+                        <div class="card-meta">
+                            <span><i class="far fa-calendar"></i> Published: January 1, 2024</span>
+                            <span><i class="far fa-clock"></i> Duration: 15:00</span>
+                            <span><i class="far fa-eye"></i> Views: 0</span>
+                        </div>
+                        <div class="card-description">
+                            <p>Imhotep lived over 4,000 years ago during Egypt's Old Kingdom, specifically around the 27th to 26th century BCE. He held prominent roles in society, serving as chancellor to Pharaoh Djoser and as high priest of the sun god Ra at the sacred city of Heliopolis. His influence extended across both political and religious spheres, making him one of the most revered figures of his time.</p>
+                            <p>Widely recognized as a polymath, Imhotep demonstrated exceptional skill and innovation in multiple fields. As the architect of the Step Pyramid at Saqqara—the first monumental stone structure in history—he revolutionized Egyptian architecture. He was also a pioneering physician, often credited as the founder of Egyptian medicine, with his teachings influencing healing practices for centuries. In addition, he contributed to astronomy and philosophical thought, earning a reputation as a sage and advisor.</p>
+                            <p>The name Imhotep translates to "He who comes in peace," a reflection of his legacy as a bringer of wisdom, healing, and harmony. His contributions were so profound that he was later deified as the god of medicine and wisdom—one of the few mortals in ancient Egypt to be granted divine status. His enduring legacy continues to symbolize the depth and sophistication of African intellectual traditions.</p>
+                            <p>"Imhotep was deified after his death as the god of medicine and wisdom, one of the few mortals to achieve divine status in ancient Egypt."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <video controls>
+                            <source src="https://raw.githubusercontent.com/oeybers-cpu/a_lit_multimedia/main/20251023_2051_New%20Video_simple_compose_01k896jcftec6b0047705cjxv4%20(1).mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    
+                    <div class="card-content">
+                        <h2 class="card-title">Ancient Wisdom in Modern Context</h2>
+                        <div class="card-meta">
+                            <span><i class="far fa-calendar"></i> Published: January 15, 2024</span>
+                            <span><i class="far fa-clock"></i> Duration: 18:30</span>
+                            <span><i class="far fa-eye"></i> Views: 0</span>
+                        </div>
+                        <div class="card-description">
+                            <p>This video explores the connections between ancient Egyptian knowledge and contemporary academic practices. Discover how Imhotep's legacy continues to inspire modern educational approaches and interdisciplinary learning.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="empty-state" id="audio-content" style="display: none;">
+                <i class="fas fa-music"></i>
+                <h3>Visit Soon for New Content</h3>
+                <p>Our audio resources section is being developed</p>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2024 Academic Literacy Hub | All rights reserved</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link"><i class="fas fa-info-circle"></i> About</a>
+                <a href="#" class="footer-link"><i class="fas fa-book"></i> Resources</a>
+                <a href="#" class="footer-link"><i class="fas fa-envelope"></i> Contact</a>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const contentSections = document.querySelectorAll('.video-grid, .empty-state');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Hide all content sections
+                    contentSections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // Show the corresponding content section
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-content`).style.display = 'grid';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
